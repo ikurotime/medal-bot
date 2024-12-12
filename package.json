@@ -1,0 +1,10 @@
+{
+  "type": "module",
+  "dependencies": {
+    "tmi.js": "^1.8.5",
+    "ws": "^8.18.0"
+  },
+  "devDependencies": {
+    "dotenv": "^16.4.7"
+  }
+}
