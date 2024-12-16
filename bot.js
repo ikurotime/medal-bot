@@ -1,9 +1,43 @@
-import { JSONFileSyncPreset } from 'lowdb/node'
-
 /* eslint-disable node/prefer-global/process */
-import tmi from 'tmi.js'
+import { readFile } from 'node:fs/promises'
+
+import { createServer } from 'node:http'
+
+import { extname, join } from 'node:path'
 /* eslint-disable no-console */
+import { fileURLToPath } from 'node:url'
+import { JSONFileSyncPreset } from 'lowdb/node'
+import tmi from 'tmi.js'
 import 'dotenv/config'
+
+// Serve files from the "public" folder
+const __dirname = fileURLToPath(new URL('.', import.meta.url))
+const BASE_DIR = join(__dirname, '/')
+
+// MIME types for content
+const MIME_TYPES = {
+  '.html': 'text/html',
+  '.css': 'text/css',
+  '.js': 'application/javascript',
+  '.json': 'application/json',
+}
+
+const server = createServer(async (req, res) => {
+  const filePath = join(BASE_DIR, req.url === '/' ? 'index.html' : req.url)
+  const ext = extname(filePath)
+  const contentType = MIME_TYPES[ext] || 'application/octet-stream'
+
+  try {
+    const data = await readFile(filePath)
+    res.writeHead(200, { 'Content-Type': contentType })
+    res.end(data)
+  }
+  catch (err) {
+    res.writeHead(err.code === 'ENOENT' ? 404 : 500, { 'Content-Type': 'text/plain' })
+    res.end(err.code === 'ENOENT' ? '404 Not Found' : '500 Internal Server Error')
+  }
+})
+server.listen(3000, () => console.log('Server running at http://localhost:3000'))
 
 const client = new tmi.Client({
   options: { debug: true },
@@ -94,9 +128,7 @@ function getTodayMedals(channel) {
 }
 
 client.connect()
-// [#ikurotime] <streamelements>: ikurotime is now live!
 client.on('message', (channel, tags, message, self) => {
-  // "Alca: Hello, World!"
   if (self)
     return
   if (
@@ -157,7 +189,7 @@ client.on('message', (channel, tags, message, self) => {
   if (message.toLowerCase() === '!help') {
     client.say(
       channel,
-      `Comandos: !medals, !medallas, !medal, !medalla, !reset`,
+      `Comandos: !medals | !medals @username`,
     )
   }
   if (message.toLowerCase() === '!reset' && tags.username === 'ikurotime') {
@@ -175,10 +207,9 @@ oro - 4 puntos
 plata - 2 puntos
 bronce - 1 punto
 
--- 1. Crear un comando que muestre el top 5 de medallas
+-- 1. Crear un comando que muestre el top 5 usuarios
 -- 2. Crear un comando que muestre las medallas de un usuario específico - OK
 -- 3. Crear un comando que muestre el total de medallas entregadas
--- 4. Crear un comando que muestre el total de medallas entregadas por tipo
 -- 5. Crear un comando que muestre el top 5 de medallas por tipo
 -- 6. calcular total de puntos por cada medalla obtenida. oro 3, plata 2, bronce 1.
 */

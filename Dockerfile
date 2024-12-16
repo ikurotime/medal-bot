@@ -36,7 +36,8 @@ USER node
 COPY . .
 
 # Expose the port that the application listens on.
-EXPOSE 5000
+EXPOSE 3000
 
 # Run the application.
 CMD pnpm start
+

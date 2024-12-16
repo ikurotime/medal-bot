@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>Medallas del canal:</h1>
+    <ul id="leaderboard"></ul>
+  </body>
+
+  <script type="module">
+    import db from '../db_dec_2024.json' with { type: 'json' }
+    const medals = {
+      gold: '🥇',
+      silver: '🥈',
+      bronze: '🥉',
+      honor: '🎖️',
+    }
+    const leaderboard = document.getElementById('leaderboard')
+
+    console.log(db.users)
+    leaderboard.innerHTML = db.users
+      .map((user) => {
+        const medalObject = Object.keys(medals)
+          .map((medal) => `${medals[medal]} x${user.medals[medal] || 0}`)
+          .join(', ')
+        return `<li>${user.username}: ${medalObject}</li>`
+      })
+      .join('')
+  </script>
+</html>
