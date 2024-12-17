@@ -1,0 +1,10 @@
+resources:
+  - deployment.yaml
+  - service.yaml
+  - ingress.yaml
+  - namespace.yaml # Si estás usando un namespace
+
+# Si quieres manejar imágenes desde aquí, puedes agregar una sección de `images`
+images:
+  - name: ghcr.io/ikurotime/medal-bot
+    newTag: '${IMAGE_TAG}' # Esto lo actualizará dinámicamente
