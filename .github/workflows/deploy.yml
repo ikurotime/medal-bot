@@ -29,6 +29,16 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
 
+    - name: Set environment
+      run: |
+        if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+          echo "DEPLOY_ENV=${{ github.event.inputs.environment }}" >> $GITHUB_ENV
+        elif [ "${{ github.ref }}" = "refs/heads/main" ]; then
+          echo "DEPLOY_ENV=prod" >> $GITHUB_ENV
+        else
+          echo "DEPLOY_ENV=dev" >> $GITHUB_ENV
+        fi
+
     - name: Log in to GitHub Container Registry
       uses: docker/login-action@v2
       with:
@@ -38,13 +48,14 @@ jobs:
 
     - name: Build Docker image
       run: |
-        ENVIRONMENT=${{ github.event.inputs.environment || 'dev' }}
         IMAGE_TAG=${{ github.sha }}  # Usamos el SHA del commit como tag
         docker build -t $IMAGE_NAME:$IMAGE_TAG .
+
     - name: Tag Docker image
       run: |
         IMAGE_TAG=${{ github.sha }}
         docker tag $IMAGE_NAME:$IMAGE_TAG $IMAGE_NAME:latest
+
     - name: Push Docker image to GHCR
       run: |
         IMAGE_TAG=${{ github.sha }}
@@ -59,11 +70,9 @@ jobs:
 
     - name: Deploy to Kubernetes
       run: |
-        ENVIRONMENT=${{ github.event.inputs.environment || 'dev' }}
         IMAGE_TAG=${{ github.sha }}  # Usamos el mismo tag de la imagen construida
-        kubectl apply -k k8s/overlays/$ENVIRONMENT/  # Kustomize aplica los recursos con la nueva imagen
+        kubectl apply -k k8s/overlays/$DEPLOY_ENV/  # Kustomize aplica los recursos con la nueva imagen
 
     - name: Verify Deployment
       run: |
-        ENVIRONMENT=${{ github.event.inputs.environment || 'dev' }}
-        kubectl rollout status deployment/medal-bot -n medal-bot-$ENVIRONMENT
+        kubectl rollout status deployment/medal-bot -n medal-bot-$DEPLOY_ENV

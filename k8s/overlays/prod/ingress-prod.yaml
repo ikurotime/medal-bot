@@ -4,22 +4,17 @@ metadata:
   name: ikuro-prod-ingress
   namespace: default
   annotations:
-    traefik.ingress.kubernetes.io/router.entrypoints: web
-    traefik.ingress.kubernetes.io/redirect-permanent: 'true'
-    traefik.ingress.kubernetes.io/redirect-target: 'https://twitch.tv/ikurotime'
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    traefik.ingress.kubernetes.io/router.tls: 'true'
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    traefik.ingress.kubernetes.io/router.middlewares: default-redirect-twitch@kubernetescrd
 spec:
+  ingressClassName: traefik
+  tls:
+    - hosts:
+        - ikuro.dev
+      secretName: ikuro-prod-tls
   rules:
-    - host: ikuro.dev
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: noop-service
-                port:
-                  number: 80
-
     - host: ikuro.dev
       http:
         paths:
@@ -27,9 +22,20 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: medal-bot-prod-service
+                name: medal-bot-service
                 port:
                   number: 80
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: redirect-twitch
+  namespace: default
+spec:
+  redirectRegex:
+    regex: ^https://ikuro\.dev/?$
+    replacement: https://twitch.tv/ikurotime
+    permanent: true
 ---
 apiVersion: v1
 kind: Service
@@ -38,4 +44,6 @@ metadata:
   namespace: default
 spec:
   type: ExternalName
-  externalName: example.com
+  externalName: twitch.tv
+  annotations:
+    traefik.ingress.kubernetes.io/service.serversscheme: https
