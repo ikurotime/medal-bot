@@ -44,7 +44,7 @@ jobs:
     - name: Push Docker image to GHCR
       run: |
         IMAGE_TAG=${{ github.sha }}
-        docker push $IMAGE_NAME:$IMAGE_TAG
+        docker push $IMAGE_NAME:latest
 
     - name: Set up Kubeconfig
       run: |
