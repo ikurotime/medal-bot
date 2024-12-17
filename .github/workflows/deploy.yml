@@ -38,7 +38,7 @@ jobs:
     - name: Build Docker image
       run: |
         ENVIRONMENT=${{ github.event.inputs.environment || 'dev' }}
-        IMAGE_TAG=${{ github.sha }}
+        IMAGE_TAG=${{ github.sha }}  # Usamos el SHA del commit como tag
         docker build -t $IMAGE_NAME:$IMAGE_TAG .
 
     - name: Push Docker image to GHCR
@@ -55,9 +55,8 @@ jobs:
     - name: Deploy to Kubernetes
       run: |
         ENVIRONMENT=${{ github.event.inputs.environment || 'dev' }}
-        kubectl set image -k k8s/overlays/$ENVIRONMENT/ \
-          deployment/medal-bot medal-bot=$IMAGE_NAME:${{ github.sha }}
-        kubectl apply -k k8s/overlays/$ENVIRONMENT/
+        IMAGE_TAG=${{ github.sha }}  # Usamos el mismo tag de la imagen construida
+        kubectl apply -k k8s/overlays/$ENVIRONMENT/  # Kustomize aplica los recursos con la nueva imagen
 
     - name: Verify Deployment
       run: |

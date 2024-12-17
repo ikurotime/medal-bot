@@ -1,12 +1,8 @@
 resources:
-  - ../../base # Incluye todos los manifiestos de la carpeta base
-
-namespace: my-app-dev # Namespace para el entorno de desarrollo
+  - ../../base # Incluir todos los recursos de la carpeta base
 
 images:
-  - name: ghcr.io/your-org/your-app # Reemplaza la imagen base
-    newTag: dev-latest
+  - name: ghcr.io/ikurotime/medal-bot # Nombre de la imagen
+    newTag: '${IMAGE_TAG}' # Usar el tag dinámico
 
-patchesStrategicMerge:
-  - deployment-dev.yaml
-  - ingress-dev.yaml
+namespace: medal-bot-dev # Namespace para el entorno de desarrollo (o prod)
