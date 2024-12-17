@@ -1,0 +1,18 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: my-app-ingress
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: web # Personaliza según tus necesidades
+spec:
+  rules:
+    - host: example.com # Cambiado en el overlay
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: my-app-service
+                port:
+                  number: 80

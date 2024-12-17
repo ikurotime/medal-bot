@@ -1,0 +1,16 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: medal-bot-ingress
+spec:
+  rules:
+    - host: medal-bot-dev.ikuro.dev # Host para el entorno de desarrollo
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: medal-bot-service
+                port:
+                  number: 80

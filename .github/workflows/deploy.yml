@@ -1,0 +1,65 @@
+name: Build and Deploy to Kubernetes
+
+on:
+  push:
+    branches:
+      - main
+      - dev  # Ejecuta en main (prod) o dev (desarrollo)
+    paths:
+      - "k8s/**"          # Cambios en configuraciones de Kubernetes
+      - "Dockerfile"      # Cambios en el Dockerfile
+      - ".github/**"      # Cambios en workflows
+
+  workflow_dispatch:      # Permite ejecutar manualmente el workflow
+    inputs:
+      environment:
+        description: "Choose environment to deploy (dev or prod)"
+        required: true
+        default: "prod"
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    env:
+      IMAGE_NAME: ghcr.io/ikurotime/medal-bot  # Cambia según tu imagen GHCR
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Log in to GitHub Container Registry
+      uses: docker/login-action@v2
+      with:
+        registry: ghcr.io
+        username: ${{ github.actor }}
+        password: ${{ secrets.VPS_TOKEN }}
+
+    - name: Build Docker image
+      run: |
+        ENVIRONMENT=${{ github.event.inputs.environment || 'dev' }}
+        IMAGE_TAG=${{ github.sha }}
+        docker build -t $IMAGE_NAME:$IMAGE_TAG .
+
+    - name: Push Docker image to GHCR
+      run: |
+        IMAGE_TAG=${{ github.sha }}
+        docker push $IMAGE_NAME:$IMAGE_TAG
+
+    - name: Set up Kubeconfig
+      run: |
+        mkdir -p $HOME/.kube
+        echo "${{ secrets.KUBECONFIG }}" > $HOME/.kube/config
+        chmod 600 $HOME/.kube/config
+
+    - name: Deploy to Kubernetes
+      run: |
+        ENVIRONMENT=${{ github.event.inputs.environment || 'dev' }}
+        kubectl set image -k k8s/overlays/$ENVIRONMENT/ \
+          deployment/medal-bot medal-bot=$IMAGE_NAME:${{ github.sha }}
+        kubectl apply -k k8s/overlays/$ENVIRONMENT/
+
+    - name: Verify Deployment
+      run: |
+        ENVIRONMENT=${{ github.event.inputs.environment || 'dev' }}
+        kubectl rollout status deployment/medal-bot -n medal-bot-$ENVIRONMENT

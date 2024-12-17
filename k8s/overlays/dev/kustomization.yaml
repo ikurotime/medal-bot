@@ -1,0 +1,12 @@
+resources:
+  - ../../base # Incluye todos los manifiestos de la carpeta base
+
+namespace: my-app-dev # Namespace para el entorno de desarrollo
+
+images:
+  - name: ghcr.io/your-org/your-app # Reemplaza la imagen base
+    newTag: dev-latest
+
+patchesStrategicMerge:
+  - deployment-dev.yaml
+  - ingress-dev.yaml
