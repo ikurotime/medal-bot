@@ -1,5 +1,7 @@
 resources:
   - ../../base
+  - middleware-prod.yaml
+  - noop-service-prod.yaml
 
 images:
   - name: ghcr.io/ikurotime/medal-bot
