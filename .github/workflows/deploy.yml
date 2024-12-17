@@ -9,6 +9,7 @@ on:
       - "k8s/**"          # Cambios en configuraciones de Kubernetes
       - "Dockerfile"      # Cambios en el Dockerfile
       - ".github/**"      # Cambios en workflows
+      -  bot.js
 
   workflow_dispatch:      # Permite ejecutar manualmente el workflow
     inputs:
