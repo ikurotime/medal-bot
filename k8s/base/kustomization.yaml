@@ -7,4 +7,4 @@ resources:
 # Si quieres manejar imágenes desde aquí, puedes agregar una sección de `images`
 images:
   - name: ghcr.io/ikurotime/medal-bot
-    newTag: '${IMAGE_TAG}' # Esto lo actualizará dinámicamente
+    newTag: latest # Esto lo actualizará dinámicamente
