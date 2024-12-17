@@ -3,7 +3,7 @@ kind: Ingress
 metadata:
   name: medal-bot-ingress
   annotations:
-    traefik.ingress.kubernetes.io/router.entrypoints: 'web,websecure' # Personaliza según tus necesidades
+    traefik.ingress.kubernetes.io/router.entrypoints: web # Personaliza según tus necesidades
 spec:
   rules:
     - host: example.com # Cambiado en el overlay
