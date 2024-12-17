@@ -1,0 +1,10 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: redirect-twitch
+  namespace: medal-bot-prod
+spec:
+  redirectRegex:
+    regex: ^https://ikuro\.dev/?$
+    replacement: https://twitch.tv/ikurotime
+    permanent: true

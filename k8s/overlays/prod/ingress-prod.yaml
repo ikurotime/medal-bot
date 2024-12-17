@@ -2,11 +2,12 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: medal-bot-ingress
+  namespace: medal-bot-prod
   annotations:
     traefik.ingress.kubernetes.io/router.entrypoints: websecure
     traefik.ingress.kubernetes.io/router.tls: 'true'
     cert-manager.io/cluster-issuer: letsencrypt-prod
-    traefik.ingress.kubernetes.io/router.middlewares: default-redirect-twitch@kubernetescrd
+    traefik.ingress.kubernetes.io/router.middlewares: medal-bot-prod-redirect-twitch@kubernetescrd
 spec:
   ingressClassName: traefik
   tls:
@@ -24,25 +25,3 @@ spec:
                 name: medal-bot-service
                 port:
                   number: 80
----
-apiVersion: traefik.containo.us/v1alpha1
-kind: Middleware
-metadata:
-  name: redirect-twitch
-  namespace: medal-bot
-spec:
-  redirectRegex:
-    regex: ^https://ikuro\.dev/?$
-    replacement: https://twitch.tv/ikurotime
-    permanent: true
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: noop-service
-  namespace: medal-bot
-spec:
-  type: ExternalName
-  externalName: twitch.tv
-  annotations:
-    traefik.ingress.kubernetes.io/service.serversscheme: https
