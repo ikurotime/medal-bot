@@ -5,4 +5,7 @@ images:
   - name: ghcr.io/ikurotime/medal-bot # Nombre de la imagen
     newTag: latest # Usar un tag específico
 
+patchesStrategicMerge:
+  - deployment-dev.yaml
+  - ingress-dev.yaml
 namespace: medal-bot-dev # Namespace para el entorno de desarrollo (o prod)
