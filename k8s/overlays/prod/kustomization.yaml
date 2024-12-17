@@ -10,6 +10,13 @@ images:
 namespace: medal-bot-prod
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
+
 patches:
-  - path: deployment-prod.yaml
-  - path: ingress-prod.yaml
+  - target:
+      kind: Deployment
+      name: medal-bot
+    path: deployment-prod.yaml
+  - target:
+      kind: Ingress
+      name: medal-bot-ingress
+    path: ingress-prod.yaml
