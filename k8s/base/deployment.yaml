@@ -19,3 +19,5 @@ spec:
           image: ghcr.io/ikurotime/medal-bot:latest # La imagen puede ser modificada en el overlay
           ports:
             - containerPort: 3000
+      imagePullSecrets:
+        - name: ghcr-secret
