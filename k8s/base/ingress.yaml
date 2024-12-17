@@ -3,8 +3,14 @@ kind: Ingress
 metadata:
   name: medal-bot-ingress
   annotations:
-    traefik.ingress.kubernetes.io/router.entrypoints: web # Personaliza según tus necesidades
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    traefik.ingress.kubernetes.io/router.tls: 'true'
+    cert-manager.io/cluster-issuer: letsencrypt-prod
 spec:
+  tls:
+    - hosts:
+        - example.com
+      secretName: medal-bot-tls
   rules:
     - host: example.com # Cambiado en el overlay
       http:

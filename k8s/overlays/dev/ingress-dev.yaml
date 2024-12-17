@@ -4,8 +4,12 @@ metadata:
   name: medal-bot-ingress
 spec:
   ingressClassName: traefik
+  tls:
+    - hosts:
+        - medal-bot-dev.ikuro.dev
+      secretName: medal-bot-dev-tls
   rules:
-    - host: medal-bot-dev.ikuro.dev # Host para el entorno de desarrollo
+    - host: medal-bot-dev.ikuro.dev
       http:
         paths:
           - path: /
