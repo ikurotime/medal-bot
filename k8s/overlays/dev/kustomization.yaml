@@ -3,6 +3,6 @@ resources:
 
 images:
   - name: ghcr.io/ikurotime/medal-bot # Nombre de la imagen
-    newTag: '${IMAGE_TAG}' # Usar el tag dinámico
+    newTag: latest # Usar un tag específico
 
 namespace: medal-bot-dev # Namespace para el entorno de desarrollo (o prod)
