@@ -11,7 +11,6 @@ spec:
           env:
             - name: ENVIRONMENT
               value: development
-
           envFrom:
             - secretRef:
                 name: medal-bot-dev-secret

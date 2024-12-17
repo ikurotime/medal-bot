@@ -40,8 +40,9 @@ const server = createServer(async (req, res) => {
 })
 server.listen(3000, () => {
   console.log('Environment Variables:')
+  console.log('BOT_SECRET:', process.env.BOT_SECRET)
+  console.log('DB_NAME:', process.env.DB_NAME)
   console.log('ENVIRONMENT:', process.env.ENVIRONMENT)
-  console.log('DATABASE_URL:', process.env.DATABASE_URL)
   console.log('Server running at http://localhost:3000')
 })
 
