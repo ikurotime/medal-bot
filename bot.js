@@ -1,15 +1,19 @@
-/* eslint-disable node/prefer-global/process */
-import { readFile } from 'node:fs/promises'
-
-import { createServer } from 'node:http'
-
-import { extname, join } from 'node:path'
-/* eslint-disable no-console */
-import { fileURLToPath } from 'node:url'
-import { JSONFileSyncPreset } from 'lowdb/node'
-import tmi from 'tmi.js'
+/* eslint-disable perfectionist/sort-imports */
 import 'dotenv/config'
 
+import { extname, join } from 'node:path'
+
+import { JSONFileSyncPreset } from 'lowdb/node'
+import { createServer } from 'node:http'
+import { fileURLToPath } from 'node:url'
+import { readFile } from 'node:fs/promises'
+/* eslint-disable no-console */
+/* eslint-disable node/prefer-global/process */
+import tmi from 'tmi.js'
+
+console.log('Environment Variables:')
+console.log('ENVIRONMENT:', process.env.ENVIRONMENT)
+console.log('DATABASE_URL:', process.env.DATABASE_URL)
 // Serve files from the "public" folder
 const __dirname = fileURLToPath(new URL('.', import.meta.url))
 const BASE_DIR = join(__dirname, '/')
