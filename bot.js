@@ -11,9 +11,6 @@ import { readFile } from 'node:fs/promises'
 /* eslint-disable node/prefer-global/process */
 import tmi from 'tmi.js'
 
-console.log('Environment Variables:')
-console.log('ENVIRONMENT:', process.env.ENVIRONMENT)
-console.log('DATABASE_URL:', process.env.DATABASE_URL)
 // Serve files from the "public" folder
 const __dirname = fileURLToPath(new URL('.', import.meta.url))
 const BASE_DIR = join(__dirname, '/')
@@ -41,7 +38,12 @@ const server = createServer(async (req, res) => {
     res.end(err.code === 'ENOENT' ? '404 Not Found' : '500 Internal Server Error')
   }
 })
-server.listen(3000, () => console.log('Server running at http://localhost:3000'))
+server.listen(3000, () => {
+  console.log('Environment Variables:')
+  console.log('ENVIRONMENT:', process.env.ENVIRONMENT)
+  console.log('DATABASE_URL:', process.env.DATABASE_URL)
+  console.log('Server running at http://localhost:3000')
+})
 
 const client = new tmi.Client({
   options: { debug: true },
