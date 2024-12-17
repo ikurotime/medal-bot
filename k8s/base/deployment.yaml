@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: medal-bot
+  labels:
+    app: medal-bot
+spec:
+  replicas: 1 # El overlay puede ajustar el número de réplicas
+  selector:
+    matchLabels:
+      app: medal-bot
+  template:
+    metadata:
+      labels:
+        app: medal-bot
+    spec:
+      containers:
+        - name: medal-bot
+          image: ghcr.io/ikurotime/medal-bot:latest # La imagen puede ser modificada en el overlay
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3000
+      imagePullSecrets:
+        - name: ghcr-secret

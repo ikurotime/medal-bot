@@ -1,0 +1,16 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: medal-bot
+spec:
+  replicas: 1 # En desarrollo queremos 2 réplicas
+  template:
+    spec:
+      containers:
+        - name: medal-bot
+          env:
+            - name: ENVIRONMENT
+              value: development
+          envFrom:
+            - secretRef:
+                name: medal-bot-dev-secret

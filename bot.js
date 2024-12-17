@@ -1,14 +1,15 @@
-/* eslint-disable node/prefer-global/process */
-import { readFile } from 'node:fs/promises'
-
-import { createServer } from 'node:http'
+/* eslint-disable perfectionist/sort-imports */
+import 'dotenv/config'
 
 import { extname, join } from 'node:path'
-/* eslint-disable no-console */
-import { fileURLToPath } from 'node:url'
+
 import { JSONFileSyncPreset } from 'lowdb/node'
+import { createServer } from 'node:http'
+import { fileURLToPath } from 'node:url'
+import { readFile } from 'node:fs/promises'
+/* eslint-disable no-console */
+/* eslint-disable node/prefer-global/process */
 import tmi from 'tmi.js'
-import 'dotenv/config'
 
 // Serve files from the "public" folder
 const __dirname = fileURLToPath(new URL('.', import.meta.url))
@@ -37,7 +38,13 @@ const server = createServer(async (req, res) => {
     res.end(err.code === 'ENOENT' ? '404 Not Found' : '500 Internal Server Error')
   }
 })
-server.listen(3000, () => console.log('Server running at http://localhost:3000'))
+server.listen(3000, '0.0.0.0', () => {
+  console.log('Environment Variables:')
+  console.log('BOT_SECRET:', process.env.BOT_SECRET)
+  console.log('DB_NAME:', process.env.DB_NAME)
+  console.log('ENVIRONMENT:', process.env.ENVIRONMENT)
+  console.log('Server running at http://0.0.0.0:3000')
+})
 
 const client = new tmi.Client({
   options: { debug: true },

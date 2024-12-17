@@ -1,0 +1,16 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: medal-bot
+spec:
+  replicas: 1
+  template:
+    spec:
+      containers:
+        - name: medal-bot
+          env:
+            - name: ENVIRONMENT
+              value: production
+          envFrom:
+            - secretRef:
+                name: medal-bot-prod-secret

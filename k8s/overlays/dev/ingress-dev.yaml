@@ -1,0 +1,21 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: medal-bot-ingress
+spec:
+  ingressClassName: traefik
+  tls:
+    - hosts:
+        - medal-bot-dev.ikuro.dev
+      secretName: medal-bot-dev-tls
+  rules:
+    - host: medal-bot-dev.ikuro.dev
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: medal-bot-service
+                port:
+                  number: 80
