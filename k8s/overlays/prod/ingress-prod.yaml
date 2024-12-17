@@ -29,6 +29,7 @@ apiVersion: traefik.containo.us/v1alpha1
 kind: Middleware
 metadata:
   name: redirect-twitch
+  namespace: medal-bot
 spec:
   redirectRegex:
     regex: ^https://ikuro\.dev/?$
@@ -39,6 +40,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: noop-service
+  namespace: medal-bot
 spec:
   type: ExternalName
   externalName: twitch.tv
