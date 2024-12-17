@@ -1,11 +1,13 @@
 resources:
-  - ../../base # Incluir todos los recursos de la carpeta base
+  - ../../base
 
 images:
-  - name: ghcr.io/ikurotime/medal-bot # Nombre de la imagen
-    newTag: latest # Usar un tag específico
+  - name: ghcr.io/ikurotime/medal-bot
+    newTag: latest
 
-patchesStrategicMerge:
-  - deployment-dev.yaml
-  - ingress-dev.yaml
-namespace: medal-bot-dev # Namespace para el entorno de desarrollo (o prod)
+namespace: medal-bot-dev
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+patches:
+  - path: deployment-dev.yaml
+  - path: ingress-dev.yaml
