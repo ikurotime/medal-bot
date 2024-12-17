@@ -3,6 +3,7 @@ kind: Ingress
 metadata:
   name: medal-bot-ingress
 spec:
+  ingressClassName: traefik
   rules:
     - host: medal-bot-dev.ikuro.dev # Host para el entorno de desarrollo
       http:
