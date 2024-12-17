@@ -40,10 +40,14 @@ jobs:
         ENVIRONMENT=${{ github.event.inputs.environment || 'dev' }}
         IMAGE_TAG=${{ github.sha }}  # Usamos el SHA del commit como tag
         docker build -t $IMAGE_NAME:$IMAGE_TAG .
-
+    - name: Tag Docker image
+      run: |
+        IMAGE_TAG=${{ github.sha }}
+        docker tag $IMAGE_NAME:$IMAGE_TAG $IMAGE_NAME:latest
     - name: Push Docker image to GHCR
       run: |
         IMAGE_TAG=${{ github.sha }}
+        docker push $IMAGE_NAME:$IMAGE_TAG
         docker push $IMAGE_NAME:latest
 
     - name: Set up Kubeconfig
