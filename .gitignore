@@ -2,3 +2,4 @@
 *.http
 node_modules
 db_*.json
+.DS_Store

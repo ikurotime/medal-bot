@@ -5,6 +5,6 @@ metadata:
   namespace: medal-bot-prod
 spec:
   redirectRegex:
-    regex: ^/$
+    regex: ^https:\/\/ikuro.dev$
     replacement: https://twitch.tv/ikurotime
     permanent: true
