@@ -18,6 +18,13 @@ spec:
     - host: ikuro.dev
       http:
         paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: noop-service
+                port:
+                  number: 80
           - path: /medallas
             pathType: Prefix
             backend:
