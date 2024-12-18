@@ -1,6 +1,6 @@
 resources:
   - ../../base
-  - middleware-prod.yaml
+
 images:
   - name: ghcr.io/ikurotime/medal-bot
     newTag: latest
