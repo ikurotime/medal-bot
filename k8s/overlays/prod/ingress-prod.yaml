@@ -8,6 +8,10 @@ metadata:
     traefik.ingress.kubernetes.io/router.tls: 'true'
     traefik.ingress.kubernetes.io/router.middlewares: twitch-proxy@kubernetescrd
 spec:
+  tls:
+    - hosts:
+        - ikuro.dev
+      secretName: medal-bot-tls
   rules:
     - host: ikuro.dev
       http:
