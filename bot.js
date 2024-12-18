@@ -24,6 +24,7 @@ const MIME_TYPES = {
 }
 
 const server = createServer(async (req, res) => {
+  console.log(req.url)
   const filePath = join(BASE_DIR, req.url === '/' ? 'index.html' : req.url)
   const ext = extname(filePath)
   const contentType = MIME_TYPES[ext] || 'application/octet-stream'
