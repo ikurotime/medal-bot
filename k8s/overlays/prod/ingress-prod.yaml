@@ -6,7 +6,6 @@ metadata:
   annotations:
     traefik.ingress.kubernetes.io/router.entrypoints: websecure
     traefik.ingress.kubernetes.io/router.tls: 'true'
-spec:
   tls:
     - hosts:
         - ikuro.dev
@@ -26,6 +25,6 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: twitch-proxy
+                name: medal-bot-service
                 port:
                   number: 80
