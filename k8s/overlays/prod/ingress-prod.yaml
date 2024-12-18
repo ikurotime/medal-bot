@@ -6,11 +6,8 @@ metadata:
   annotations:
     traefik.ingress.kubernetes.io/router.entrypoints: websecure
     traefik.ingress.kubernetes.io/router.tls: 'true'
+    traefik.ingress.kubernetes.io/router.middlewares: medal-bot-prod-rewrite-to-root@kubernetescrd
 spec:
-  stripPrefix:
-    forceSlash: false
-    prefixes:
-      - /overview
   tls:
     - hosts:
         - ikuro.dev
