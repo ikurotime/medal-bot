@@ -6,7 +6,6 @@ metadata:
   annotations:
     traefik.ingress.kubernetes.io/router.entrypoints: websecure
     traefik.ingress.kubernetes.io/router.tls: 'true'
-    # traefik.ingress.kubernetes.io/router.middlewares: medal-bot-prod-twitch-proxy@kubernetescrd
 spec:
   tls:
     - hosts:
@@ -23,6 +22,8 @@ spec:
                 name: twitch-proxy
                 port:
                   number: 80
+            annotations:
+              traefik.ingress.kubernetes.io/router.middlewares: medal-bot-prod-twitch-proxy@kubernetescrd
           - path: /medallas
             pathType: Prefix
             backend:
