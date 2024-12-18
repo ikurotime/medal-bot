@@ -23,3 +23,10 @@ spec:
                 name: twitch-proxy
                 port:
                   number: 80
+          - path: /medallas
+            pathType: Prefix
+            backend:
+              service:
+                name: medal-bot-service
+                port:
+                  number: 80
