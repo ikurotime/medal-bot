@@ -6,5 +6,5 @@ metadata:
 spec:
   redirectRegex:
     permanent: true
-    regex: ^https:\/\/ikuro.dev(.*)
+    regex: ^https:\/\/ikuro.dev(?!\/medallas)(.*)
     replacement: https://twitch.tv/ikurotime$1
