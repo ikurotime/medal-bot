@@ -15,8 +15,8 @@ spec:
     - host: ikuro.dev
       http:
         paths:
-          - path: /medallas
-            pathType: Prefix
+          - path: /medallas(/|$)(.*)
+            pathType: ImplementationSpecific
             backend:
               service:
                 name: medal-bot-service
@@ -26,6 +26,6 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: medal-bot-service
+                name: twitch-proxy
                 port:
                   number: 80
