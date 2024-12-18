@@ -22,8 +22,6 @@ spec:
                 name: twitch-proxy
                 port:
                   number: 80
-            annotations:
-              traefik.ingress.kubernetes.io/router.middlewares: medal-bot-prod-twitch-proxy@kubernetescrd
           - path: /medallas
             pathType: Prefix
             backend:
