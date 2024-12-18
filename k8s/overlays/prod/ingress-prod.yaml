@@ -17,7 +17,7 @@ spec:
       http:
         paths:
           - path: /medallas
-            pathType: ImplementationSpecific
+            pathType: Prefix
             backend:
               service:
                 name: medal-bot-service
