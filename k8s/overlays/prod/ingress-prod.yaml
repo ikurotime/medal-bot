@@ -6,6 +6,7 @@ metadata:
   annotations:
     traefik.ingress.kubernetes.io/router.entrypoints: websecure
     traefik.ingress.kubernetes.io/router.tls: 'true'
+    traefik.ingress.kubernetes.io/rewrite-target: /
 spec:
   tls:
     - hosts:
@@ -15,7 +16,7 @@ spec:
     - host: ikuro.dev
       http:
         paths:
-          - path: /medallas(/|$)(.*)
+          - path: /medallas
             pathType: ImplementationSpecific
             backend:
               service:
