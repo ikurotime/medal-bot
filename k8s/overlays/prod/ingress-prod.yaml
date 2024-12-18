@@ -4,10 +4,10 @@ metadata:
   name: medal-bot-ingress
   namespace: medal-bot-prod
   annotations:
-    traefik.ingress.kubernetes.io/router.entrypoints: websecure
-    traefik.ingress.kubernetes.io/router.tls: 'true'
     cert-manager.io/cluster-issuer: letsencrypt-prod
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
     traefik.ingress.kubernetes.io/router.middlewares: medal-bot-prod-redirect-twitch@kubernetescrd
+    traefik.ingress.kubernetes.io/router.tls: 'true'
 spec:
   ingressClassName: traefik
   tls:
@@ -23,12 +23,5 @@ spec:
             backend:
               service:
                 name: noop-service
-                port:
-                  number: 80
-          - path: /medallas
-            pathType: Prefix
-            backend:
-              service:
-                name: medal-bot-service
                 port:
                   number: 80
